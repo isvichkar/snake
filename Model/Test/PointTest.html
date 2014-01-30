@@ -1,0 +1,116 @@
+
+<html>
+<head>
+	<script type="text/javascript" src="../Point.js"></script>
+	<script type="text/javascript" src="../Direction.js"></script>
+	<script type="text/javascript" src="TestHelper.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var testHelper = window.snakeNS.TestHelper.instance;
+			var direction = window.snakeNS.Direction;
+
+			var point = new window.snakeNS.Point(0,0);
+			testHelper.addTextLineToElement('console', 'Initial point: ' + point);
+
+			point.moveDown();
+			testHelper.addTextLineToElement('console', 'After one move down: ' + point);
+
+			point.moveDown();
+			testHelper.addTextLineToElement('console', 'After next move down: ' + point);
+
+			point.moveRight();
+			testHelper.addTextLineToElement('console', 'After one move right: ' + point);
+
+			point.moveRight();
+			testHelper.addTextLineToElement('console', 'After next move right: ' + point);
+
+			point.moveUp();
+			testHelper.addTextLineToElement('console', 'After one move up: ' + point);
+
+			point.moveLeft();
+			testHelper.addTextLineToElement('console', 'After one move left: ' + point);
+
+			testHelper.addTextLineToElement('console', '');
+
+			point.move(direction.down);
+			testHelper.addTextLineToElement('console', 'After move to direction "down": ' + point);
+
+			point.move(direction.up);
+			testHelper.addTextLineToElement('console', 'After move to direction "up": ' + point);
+
+			point.move(direction.left);
+			testHelper.addTextLineToElement('console', 'After move to direction "left": ' + point);
+
+			point.move(direction.right);
+			testHelper.addTextLineToElement('console', 'After move to direction "right": ' + point);
+
+			try {	
+				point.move('incorrect direction');
+				testHelper.addTextLineToElement('console', 'After move to direction "incorrect direction" successfully: ' + point);
+			}
+			catch(e){
+				testHelper.addTextLineToElement('console', 'Move to direction "incorrect direction" failed: ' + e.message);	
+			}
+
+			testHelper.addTextLineToElement('console', '');
+
+			var a = new window.snakeNS.Point(1, 2);
+			var b = new window.snakeNS.Point(1, 2);
+
+			testHelper.addTextLineToElement('console', 'a: ' + a + '; b: ' + b + '. a equals b: ' + a.equals(b));
+
+			a = new window.snakeNS.Point(0, 0);
+			b = new window.snakeNS.Point(1, 1);
+
+			testHelper.addTextLineToElement('console', 'a: ' + a + '; b: ' + b + '. a equals b: ' + a.equals(b));
+
+			testHelper.addTextLineToElement('console', '');
+
+			point = new window.snakeNS.Point(1, 1);
+			var dirPoints = [
+				new window.snakeNS.Point(1, 0),
+				new window.snakeNS.Point(1, 2),
+				new window.snakeNS.Point(0, 1),
+				new window.snakeNS.Point(2, 1),
+				new window.snakeNS.Point(1, 1),
+				new window.snakeNS.Point(0, 0)
+			];
+
+			for(var i = 0; i < dirPoints.length; i++){
+				var dir = point.getDirectionByPoints(dirPoints[i]);
+				testHelper.addTextLineToElement('console', 'Direction from ' + point + ' to ' + dirPoints[i] + ': ' + dir);	
+			};
+
+			testHelper.addTextLineToElement('console', '');
+
+			var directions = [direction.down, direction.up, direction.left, direction.right,, 'wrong'];
+			for (var i = 0; i < directions.length; i++){
+				try {
+					var dirPoint = point.getPointByDirection(directions[i]);
+					testHelper.addTextLineToElement('console', 'Point from ' + point + ' in direction ' + directions[i] + ': ' + dirPoint);	
+				}
+				catch(e){
+					testHelper.addTextLineToElement('console', 'Unable to get point from ' + point + 'in direction ' + directions[i] + ': ' + e);
+				}
+			};
+
+			testHelper.addTextLineToElement('console', '');
+
+			var sourcePoint = new window.snakeNS.Point(1, 1);
+			var clonePoint = sourcePoint.clone();
+			testHelper.addTextLineToElement('console', 'A point ' + sourcePoint + 'was cloned.');
+
+			clonePoint.moveLeft().moveDown();
+			testHelper.addTextLineToElement('console', 'The cloned point was changed to ' + clonePoint + '. Source point after that: ' + sourcePoint + '.');
+
+
+			
+
+		}
+	</script>
+</head>
+<body>
+	<h1>Point test</h1>
+	<div id='console'></div>
+</body>
+</html>

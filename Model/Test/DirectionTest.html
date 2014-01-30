@@ -1,0 +1,24 @@
+<html>
+<head>
+	<script type="text/javascript" src="../Direction.js"></script>
+	<script type="text/javascript" src="TestHelper.js"></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var testHelper = window.snakeNS.TestHelper.instance;
+			testHelper.addTextLineToElement('console','Direction.up: ' + window.snakeNS.Direction.up);
+			testHelper.addTextLineToElement('console','Direction.down: ' + window.snakeNS.Direction.down);
+			testHelper.addTextLineToElement('console','Direction.left: ' + window.snakeNS.Direction.left);
+			testHelper.addTextLineToElement('console','Direction.right: ' + window.snakeNS.Direction.right);
+
+			testHelper.addTextLineToElement('console','Is correct direction "up" ' + "up".isValidDirectionValue());
+			testHelper.addTextLineToElement('console','Is correct direction "Up" ' + "Up".isValidDirectionValue());
+			testHelper.addTextLineToElement('console','Is correct direction {Up: "Up"} ' + {Up: "Up"}.isValidDirectionValue());	
+			testHelper.addTextLineToElement('console','Is correct direction "Right" ' + "Right".isValidDirectionValue());		
+		}
+	</script>
+</head>
+<body>
+	<h1>Direction test</h1>
+	<div id='console'></div>
+</body>
+</html>
