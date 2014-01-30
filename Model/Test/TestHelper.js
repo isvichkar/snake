@@ -1,19 +1,35 @@
-(function(){
-    window.snakeNS = window.snakeNS || {};
-    window.snakeNS.TestHelper = function(){
+(function () {
+  window.snakeNS = window.snakeNS || {};
+  window.snakeNS.TestHelper = function () {
+    var myInstance = this;
+    var config = {consoleElementId: 'console'};
 
-    	var myInstance = this;    	
+    if (!window.snakeNS.TestHelper.instance) {
+      myInstance.addTextLineToElement = function (elemId, textLine) {
+        var elem = document.getElementById(elemId);
+        elem.innerHTML = elem.innerHTML + textLine + '<br/>';
+      };
 
-    	if(!window.snakeNS.TestHelper.instance){
-    		myInstance.addTextLineToElement = function(elemId, textLine){
-				var elem = document.getElementById(elemId);
-				elem.innerHTML = elem.innerHTML + textLine + '<br/>';
-    		};
-    		window.snakeNS.TestHelper.instance = myInstance;
-    	};
+      myInstance.config = function(prefs) {
+        var prop;
+        if (typeof prefs === 'object') {
+          for(prop in prefs) {
+            if (prefs.hasOwnProperty(prop)){
+              config[prop] = prefs[prop];
+            }
+          }
+        }
+      };
 
-    	return window.snakeNS.TestHelper.instance;
-    };
+      myInstance.log = function(msg) {
+        this.addTextLineToElement(config.consoleElementId, msg);
+      };
 
-    var testHelper = new window.snakeNS.TestHelper();
+      window.snakeNS.TestHelper.instance = myInstance;
+    }
+
+    return window.snakeNS.TestHelper.instance;
+  };
+
+  var testHelper = new window.snakeNS.TestHelper();
 })();
