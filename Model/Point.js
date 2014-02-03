@@ -84,7 +84,11 @@
 
 	window.snakeNS.Point.prototype.toString = function(){
 		return '{x: ' + this.x + ', y: ' + this.y + '}';
-	};		
+	};
+
+  window.snakeNS.Point.isPoint = function (item) {
+    return item instanceof window.snakeNS.Point;
+  };
 })();
 
 

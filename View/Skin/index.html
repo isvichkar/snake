@@ -1,0 +1,17 @@
+<html>
+<head>
+  <script type="text/javascript" src="Skin.js"></script>
+  <!--script type="text/javascript" src="Skin/Additional/Skin.js"></script-->
+  <script type="text/javascript">
+    window.onload = function () {
+      var canv = document.getElementById("myCanvas");
+      var context = canv.getContext("2d");
+      console.dir(context);
+      window.snakeNS.skinProvider.drawSnakeHeadSquare(context);
+    }
+  </script>
+</head>
+<body>
+<canvas id="myCanvas" width="400px" height="400px"></canvas>
+</body>
+</html>

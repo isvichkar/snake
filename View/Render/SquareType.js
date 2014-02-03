@@ -1,4 +1,8 @@
-var squareType = new Object();
-squareType.normal = "Normal";
-squareType.snakeBody = "SnakeBody";
-squareType.snakeHead = "SnakeHead";
+(function () {
+  window.snakeNS = window.snakeNS || {};
+  window.snakeNS.squareType = {
+    normal: "Normal",
+    snakeBody: "SnakeBody",
+    snakeHead: "SnakeHead"
+  };
+})();

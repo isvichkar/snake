@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Grid draw test</title>
+  <script type="text/javascript" src="../../Model/Point.js"></script>
+  <script type="text/javascript" src="../../Model/Direction.js"></script>
+  <script type="text/javascript" src="../../Model/MainGrid.js"></script>
+  <script type="text/javascript" src="../../Model/Snake.js"></script>
+
+  <script type="text/javascript" src="../Skin/Skin.js"></script>
+  <script type="text/javascript" src="../Render/SquareType.js"></script>
+  <script type="text/javascript" src="../Render/GridDraw.js"></script>
+
+  <script type="text/javascript">
+    window.onload = function () {
+      var grid = new snakeNS.MainGrid(2, 2);
+      var snake = new snakeNS.Snake();
+
+      var workingCanvas = document.getElementById('workingCanvas');
+      grid.drawSnake(workingCanvas.getContext('2d'), snake);
+    };
+  </script>
+</head>
+<body>
+  <canvas id="workingCanvas" style="width: 600px; height: 500px; border-width: 2px; border-color: gray; border-style: solid; margin-left: auto; margin-right: auto; text-align: center;"></canvas>
+</body>
+</html>

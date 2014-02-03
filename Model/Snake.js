@@ -5,7 +5,7 @@
 
   window.snakeNS.Snake = function (head, body, direction) {
     var _myself = this,
-      _headPosition = head instanceof Point ? head : new Point(0, 0),
+      _headPosition = Point.isPoint(head) ? head : new Point(0, 0),
       _bodyPoints = getInitialBody(body),
       _currentDirection = typeof direction === 'string' && direction.isValidDirectionValue() ? direction : Direction.down;
 
@@ -31,6 +31,20 @@
 
     this.getLength = function () {
       return (_bodyPoints ? _bodyPoints.length : 0) + 1;
+    };
+
+    this.isHead = function(point) {
+      return _headPosition.equals(point);
+    };
+
+    this.isInBody = function(point) {
+      var result = false;
+      if (_bodyPoints) {
+        result = _bodyPoints.some(function (bodyPoint) {
+          point.equals(bodyPoint);
+        });
+      }
+      return result;
     };
 
     // Moves a snake a one point in the current direction.
@@ -75,7 +89,7 @@
 
     function bumpedIntoWall (grid) {
       var result = grid.inspectPoint(_headPosition);
-      return result;
+      return result.outOfBoundaries;
     }
 
     // if a head has moved to any body point except for the last one.
@@ -87,16 +101,12 @@
       return result;
     }
 
-    ;
-
     // If a body param is an array of Points - get it as is,
     // if it is one point - wrap it into array with one element,
     // otherwise - get new empty array.
     function getInitialBody (body) {
       if (Array.isArray(body)) {
-        if (body.every(function (item) {
-          return item instanceof Point;
-        })) {
+        if (body.every(Point.isPoint)) {
           return body;
         }
       }
@@ -106,8 +116,6 @@
 
       return [];
     }
-
-    ;
   };
 
   window.snakeNS.Snake.prototype.toString = function () {
