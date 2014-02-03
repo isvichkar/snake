@@ -8,21 +8,23 @@
   <script type="text/javascript" src="../../Model/MainGrid.js"></script>
   <script type="text/javascript" src="../../Model/Snake.js"></script>
 
+  <script type="text/javascript" src="../Render/DrawingUtils.js"></script>
   <script type="text/javascript" src="../Skin/Skin.js"></script>
   <script type="text/javascript" src="../Render/SquareType.js"></script>
   <script type="text/javascript" src="../Render/GridDraw.js"></script>
 
   <script type="text/javascript">
     window.onload = function () {
-      var grid = new snakeNS.MainGrid(2, 2);
+      var grid = new snakeNS.MainGrid(16, 16);
       var snake = new snakeNS.Snake();
 
       var workingCanvas = document.getElementById('workingCanvas');
-      grid.drawSnake(workingCanvas.getContext('2d'), snake);
+      snakeNS.drawingUtils.setCanvasSizeFromStyles(workingCanvas);
+      grid.drawSnake(workingCanvas.getContext('2d'), snake, workingCanvas.width, workingCanvas.height);
     };
   </script>
 </head>
 <body>
-  <canvas id="workingCanvas" style="width: 600px; height: 500px; border-width: 2px; border-color: gray; border-style: solid; margin-left: auto; margin-right: auto; text-align: center;"></canvas>
+  <canvas id="workingCanvas" style="width: 500px; height: 500px; border-width: 2px; border-color: gray; border-style: solid; margin-left: auto; margin-right: auto; text-align: center;"></canvas>
 </body>
 </html>

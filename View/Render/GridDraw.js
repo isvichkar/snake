@@ -5,19 +5,19 @@
     skinProvider = window.snakeNS.skinProvider,
     SquareType = window.snakeNS.squareType;
 
-  window.snakeNS.MainGrid.prototype.drawSnake = function (ctx, snake) {
+  window.snakeNS.MainGrid.prototype.drawSnake = function (ctx, snake, width, height) {
     var xIndex, yIndex,
-      dx = ctx.canvas.scrollWidth / this.xCount,
-      dy = ctx.canvas.scrollHeight / this.yCount,
+      dx = width / this.xCount,
+      dy = height / this.yCount,
       squareType;
 
     ctx.save();
 
     for (xIndex = 0; xIndex < this.xCount; xIndex++) {
-      ctx.save();
       if (xIndex > 0) {
         ctx.translate(dx, 0);
       }
+      ctx.save();
       for (yIndex = 0; yIndex < this.yCount; yIndex++) {
         if (yIndex > 0) {
           ctx.translate(0, dy);

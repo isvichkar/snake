@@ -3,8 +3,8 @@
 
   window.snakeNS.skinProvider = {
     drawSnakeHeadSquare: function (ctx, width, height) {
-      var borderWidth = 15,
-        borderColor = '#ffff00',
+      var borderWidth = Math.max(width/40, height/40),
+        borderColor = '#aaffaa',
         outerBorderWidth = 2,
         outerBorderColor = 'black';
 
@@ -20,15 +20,15 @@
       ctx.lineWidth = borderWidth;
       ctx.strokeRect(0, 0, width, height);
 
-      ctx.strokeStyle = outerBorderColor;
+      /*ctx.strokeStyle = outerBorderColor;
       ctx.lineWidth = outerBorderWidth;
-      ctx.strokeRect(0, 0, width, height);
+      ctx.strokeRect(0, 0, width, height);*/
     },
     drawSnakeBodySquare: function (ctx) {
 
     },
     drawGridSquare: function (ctx, width, height) {
-      var borderWidth = 15,
+      var borderWidth = Math.max(width/40, height/40),
         borderColor = '#aaffaa',
         outerBorderWidth = 2,
         outerBorderColor = 'black';
@@ -45,9 +45,9 @@
       ctx.lineWidth = borderWidth;
       ctx.strokeRect(0, 0, width, height);
 
-      ctx.strokeStyle = outerBorderColor;
+      /*ctx.strokeStyle = outerBorderColor;
       ctx.lineWidth = outerBorderWidth;
-      ctx.strokeRect(0, 0, width, height);
+      ctx.strokeRect(0, 0, width, height);*/
     }
   };
 
