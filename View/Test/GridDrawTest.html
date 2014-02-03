@@ -15,12 +15,45 @@
 
   <script type="text/javascript">
     window.onload = function () {
-      var grid = new snakeNS.MainGrid(16, 16);
-      var snake = new snakeNS.Snake();
+      var grid = new snakeNS.MainGrid(10, 10);
+
+      var Point = snakeNS.Point;
+      var Direction = window.snakeNS.Direction;
+
+      var snake = new snakeNS.Snake(new Point(2, 9), [new Point(1, 9), new Point(0, 9)], Direction.right);
 
       var workingCanvas = document.getElementById('workingCanvas');
       snakeNS.drawingUtils.setCanvasSizeFromStyles(workingCanvas);
       grid.drawSnake(workingCanvas.getContext('2d'), snake, workingCanvas.width, workingCanvas.height);
+
+      var step = 0;
+
+      function doStep () {
+        if (step === 6) {
+          snake.changeDirection(Direction.up);
+        } else if (step === 14) {
+          snake.changeDirection(Direction.left);
+        } else if (step === 22) {
+          snake.changeDirection(Direction.down);
+        } else if (step === 27) {
+          snake.changeDirection(Direction.right);
+        } else if (step === 34) {
+          snake.changeDirection(Direction.left);
+        } else if (step === 38) {
+          snake.changeDirection(Direction.up);
+          snake.addNewHead(grid);
+        } else if (step === 41) {
+          snake.changeDirection(Direction.down);
+        }
+
+        snake.move(grid);
+        grid.drawSnake(workingCanvas.getContext('2d'), snake, workingCanvas.width, workingCanvas.height);
+        if (step++ < 45) {
+          window.setTimeout(doStep, 250);
+        }
+      }
+
+      doStep();
     };
   </script>
 </head>

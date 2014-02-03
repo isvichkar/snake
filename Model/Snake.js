@@ -41,7 +41,7 @@
       var result = false;
       if (_bodyPoints) {
         result = _bodyPoints.some(function (bodyPoint) {
-          point.equals(bodyPoint);
+          return point.equals(bodyPoint);
         });
       }
       return result;
