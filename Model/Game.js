@@ -5,40 +5,51 @@
 // provides an interface for starting/pausing/resuming a game.
 // handles a timer for moves.
 
-(function(){
-    window.snakeNS = window.snakeNS || {};
-    window.snakeNS.Game = function(settings, stepCallback){
-        var stepInterval = settings && settings.stepInterval ? settings.stepInterval : 500, // In ms.
-            snake = new window.snakeNS.Snake(
-                new window.snakeNS.Point(0, 0),
-                null,
-                window.snakeNS.Direction.down),
-            mainGrid = new window.snakeNS.MainGrid(
-                settings && settings.xCount ? settings.xCount : 20,
-                settings && settings.yCount ? settings.yCount : 20),
-            stepTimer = null;
+(function () {
+  window.snakeNS = window.snakeNS || {};
+  var Point = window.snakeNS.Point;
+  var Direction = window.snakeNS.Direction;
 
-        var step = function(){
-            var moveResult = snake.move(mainGrid);
-            stepCallback(moveResult, mainGrid, snake);
-            stepTimer = window.setInterval(step, stepInterval);
-        };
+  window.snakeNS.Game = function (settings, stepCallback) {
+    var stepInterval = settings && settings.stepInterval ? settings.stepInterval : 500, // In ms.
+      xCount = settings && settings.xCount ? settings.xCount : 20,
+      yCount = settings && settings.yCount ? settings.yCount : 20,
+      mainGrid = new window.snakeNS.MainGrid(xCount, yCount),
+      snake = new window.snakeNS.Snake(
+        new Point(2, yCount - 1),
+        [new Point(0, yCount - 1), new Point(1, yCount - 1)],
+        window.snakeNS.Direction.right),
+      stepTimer = null,
+      commandTypeToDirectionMap = {
+        'up': Direction.up,
+        'down': Direction.down,
+        'left': Direction.left,
+        'right': Direction.right
+      };
 
-        // Its a point for a game control.
-        this.handleCommand = function(command){
-            command(snake);
-        };
+    var step = function () {
+      var moveResult = snake.move(mainGrid);
+      stepCallback(moveResult, mainGrid, snake);
+      stepTimer = window.setTimeout(step, stepInterval);
+    };
 
-        this.startGame = function(){
-            stepTimer = window.setInterval(step, stepInterval);
-        };
+    // Its a point for a game control.
+    this.handleCommand = function (command) {
+      if (commandTypeToDirectionMap.hasOwnProperty(command.type)) {
+        snake.changeDirection(commandTypeToDirectionMap[command.type]);
+      }
+    };
 
-        this.stopGame = function(){
-            if (stepTimer) {
-                window.clearInterval(stepInterval);
-                stepInterval = null;
-            }
-        };
-    }
+    this.startGame = function () {
+      stepTimer = window.setTimeout(step, stepInterval);
+    };
+
+    this.stopGame = function () {
+      if (stepTimer) {
+        window.clearTimeout(stepInterval);
+        stepInterval = null;
+      }
+    };
+  }
 })();
 
