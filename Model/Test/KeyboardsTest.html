@@ -1,0 +1,32 @@
+<html>
+<head>
+  <script type="text/javascript" src="../Point.js"></script>
+  <script type="text/javascript" src="../Keyboards/Command.js"></script>
+  <script type="text/javascript" src="../Keyboards/Keyboard.js"></script>
+  <script type="text/javascript" src="../Keyboards/DesktopKeyboard.js"></script>
+
+  <script type="text/javascript" src="TestHelper.js"></script>
+  <script type="text/javascript">
+    var testHelper = window.snakeNS.TestHelper.instance;
+
+    function handleCommand(command) {
+      testHelper.log('Command received. Type = "' + command.type + '".');
+    };
+
+    window.onload = function () {
+      testHelper.log('Creating the keyboard...');
+      var keyboard = new window.snakeNS.DesktopKeyboard();
+      testHelper.log('The keyboard created. Attaching the element to it...');
+      keyboard.attach(window.document.body);
+      testHelper.log('Body attached. Assigning command listeners...');
+      keyboard.addListener(handleCommand);
+      testHelper.log('Ready to listen to commands!');
+    }
+  </script>
+</head>
+<body>
+<h1>Keyboards test</h1>
+
+<div id='console'></div>
+</body>
+</html>

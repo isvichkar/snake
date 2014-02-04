@@ -8,7 +8,7 @@
 (function(){
     window.snakeNS = window.snakeNS || {};
     window.snakeNS.Game = function(settings, stepCallback){
-        var stepInterval = settings && settings.stepInterval ? settings.stepInterval : 1000, // In ms.
+        var stepInterval = settings && settings.stepInterval ? settings.stepInterval : 500, // In ms.
             snake = new window.snakeNS.Snake(
                 new window.snakeNS.Point(0, 0),
                 null,
