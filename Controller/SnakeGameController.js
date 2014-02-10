@@ -6,8 +6,12 @@
   var workingCanvas;
 
   function stepHandler(moveResult, mainGrid, snake) {
-    mainGrid.drawSnake(workingCanvas.getContext('2d'), snake, workingCanvas.width, workingCanvas.height);
-    console.log('Render');
+    if (moveResult.status !== 'BumpedIntoSelf' && moveResult.status !== 'BumpedIntoBorder') {
+      mainGrid.drawSnake(workingCanvas.getContext('2d'), snake, workingCanvas.width, workingCanvas.height);
+      console.log('Render');
+    } else {
+      console.log(moveResult.message);
+    }
   }
 
   var settings = {

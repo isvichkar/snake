@@ -18,7 +18,7 @@
     this.listeners.push(listener);
   };
 
-  window.snakeNS.Keyboard.prototype.keyboard = function (listener) {
+  window.snakeNS.Keyboard.prototype.removeListener = function (listener) {
     var index = this.listeners.indexOf(listener);
     this.listeners.splice(index, 1);
   };

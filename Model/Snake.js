@@ -3,11 +3,12 @@
   var Point = window.snakeNS.Point;
   var Direction = window.snakeNS.Direction;
 
-  window.snakeNS.Snake = function (head, body, direction) {
+  window.snakeNS.Snake = function (head, body, direction, checkMoveProcessor) {
     var _myself = this,
       _headPosition = Point.isPoint(head) ? head : new Point(0, 0),
       _bodyPoints = getInitialBody(body),
-      _currentDirection = typeof direction === 'string' && direction.isValidDirectionValue() ? direction : Direction.down;
+      _currentDirection = typeof direction === 'string' && direction.isValidDirectionValue() ? direction : Direction.down,
+      _checkMoveProcessor = checkMoveProcessor;
 
     // Changes the direction of a snake.
     this.changeDirection = function (newDirection) {
@@ -47,15 +48,35 @@
       return result;
     };
 
+
+    function checkMove () {
+      var moveResult = {
+        movePossible: true,
+        status: 'Move',
+        message: 'Ordinary move'
+      };
+
+      if (bumpedIntoSelf()) {
+        moveResult.movePossible = false;
+        moveResult.status = 'BumpedIntoSelf';
+        moveResult.message = 'Bumped into self';
+      } else {
+        if (typeof _checkMoveProcessor === 'function') {
+          moveResult = _checkMoveProcessor(new Point(_headPosition.x, _headPosition.y));
+        }
+      }
+
+      return moveResult;
+    }
+
     // Moves a snake a one point in the current direction.
-    // If the move was correct - returns true, otherwise - false.
-    this.move = function (grid) {
+    // Returns the result of move
+    this.move = function () {
       var headBackup = new Point(_headPosition.x, _headPosition.y),
-          isOppositeDirection = false;
+          isOppositeDirection;
 
       _headPosition.move(_currentDirection);
       isOppositeDirection = _bodyPoints.length > 0 && _headPosition.equals(_bodyPoints[0]);
-
 
       // the opposite direction was requested.
       if (isOppositeDirection) {
@@ -70,11 +91,11 @@
         _currentDirection = _headPosition.getDirectionByPoints(_bodyPoints[0]);
       }
 
-      var moveCorrect = checkMove(grid);
+      var moveResult = checkMove();
 
       // re-arrange the body.
       if (!isOppositeDirection){
-          if (moveCorrect && _bodyPoints.length > 0) {
+          if (moveResult.movePossible === true && _bodyPoints.length > 0) {
             _bodyPoints.unshift(new Point(headBackup.x, headBackup.y));
             _bodyPoints.length--;
           }
@@ -82,21 +103,12 @@
             _headPosition = headBackup;
           }
       }
-      return moveCorrect;
+      return moveResult;
     };
 
     this.stringify = function () {
       return '{ head: ' + _headPosition + '; body: ' + _bodyPoints + '; direction: ' + _currentDirection + '}';
     };
-
-    function checkMove (grid) {
-      return !bumpedIntoWall(grid) && !bumpedIntoSelf();
-    }
-
-    function bumpedIntoWall (grid) {
-      var result = grid.inspectPoint(_headPosition);
-      return result.outOfBoundaries;
-    }
 
     // if a head has moved to any body point except for the last one.
     function bumpedIntoSelf () {
@@ -105,7 +117,7 @@
         result = _headPosition.equals(_bodyPoints[i]);
       }
       return result;
-    }
+    };
 
     // If a body param is an array of Points - get it as is,
     // if it is one point - wrap it into array with one element,

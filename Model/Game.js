@@ -18,7 +18,8 @@
       snake = new window.snakeNS.Snake(
         new Point(2, yCount - 1),
         [new Point(0, yCount - 1), new Point(1, yCount - 1)],
-        window.snakeNS.Direction.right),
+        window.snakeNS.Direction.right,
+        checkMove),
       stepTimer = null,
       commandTypeToDirectionMap = {
         'up': Direction.up,
@@ -27,8 +28,26 @@
         'right': Direction.right
       };
 
+    function checkMove(newSnakeHead) {
+      var result = mainGrid.inspectPoint(newSnakeHead);
+
+      if (result.outOfBoundaries) {
+        return {
+          status: 'BumpedIntoBorder',
+          message: 'Bump into the border',
+          movePossible: false
+        }
+      }
+
+      return {
+        movePossible: true,
+        status: 'Move',
+        message: 'Ordinary move'
+      };
+    }
+
     var step = function () {
-      var moveResult = snake.move(mainGrid);
+      var moveResult = snake.move();
       stepCallback(moveResult, mainGrid, snake);
       stepTimer = window.setTimeout(step, stepInterval);
     };
