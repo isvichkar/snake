@@ -50,11 +50,15 @@
     // Moves a snake a one point in the current direction.
     // If the move was correct - returns true, otherwise - false.
     this.move = function (grid) {
-      var headBackup = new Point(_headPosition.x, _headPosition.y);
+      var headBackup = new Point(_headPosition.x, _headPosition.y),
+          isOppositeDirection = false;
+
       _headPosition.move(_currentDirection);
+      isOppositeDirection = _bodyPoints.length > 0 && _headPosition.equals(_bodyPoints[0]);
+
 
       // the opposite direction was requested.
-      if (_bodyPoints.length > 0 && _headPosition.equals(_bodyPoints[0])) {
+      if (isOppositeDirection) {
         _headPosition = _bodyPoints[_bodyPoints.length - 1];
 
         var newBodyPoints = [];
@@ -69,12 +73,14 @@
       var moveCorrect = checkMove(grid);
 
       // re-arrange the body.
-      if (moveCorrect && _bodyPoints.length > 0) {
-        _bodyPoints.unshift(new Point(headBackup.x, headBackup.y));
-        _bodyPoints.length--;
-      }
-      else {
-        _headPosition = headBackup;
+      if (!isOppositeDirection){
+          if (moveCorrect && _bodyPoints.length > 0) {
+            _bodyPoints.unshift(new Point(headBackup.x, headBackup.y));
+            _bodyPoints.length--;
+          }
+          else {
+            _headPosition = headBackup;
+          }
       }
       return moveCorrect;
     };

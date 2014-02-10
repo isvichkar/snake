@@ -17,6 +17,7 @@
   };
 
   var game;
+  var keyboard;
 
   window.snakeNS.controller = {
     setUpGame: function (xCount, yCount) {
@@ -31,12 +32,23 @@
       snakeNS.drawingUtils.setCanvasSizeFromStyles(workingCanvas);
 
       game = new Game(settings, stepHandler);
-      var keyboard = new DesktopKeyboard();
+      keyboard = new DesktopKeyboard();
       keyboard.attach(window.document.body);
       keyboard.addListener(game.handleCommand);
     },
     startGame: function () {
       game.startGame();
+    },
+    stopGame: function () {
+      if (game != null) {
+        game.stopGame();
+        game = null;
+      }
+      if (keyboard != null) {
+        keyboard.removeListener(game.handleCommand);
+        keyboard.detach();
+        keyboard = null;
+      }
     }
   };
 
